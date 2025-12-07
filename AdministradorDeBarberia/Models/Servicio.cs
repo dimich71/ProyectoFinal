@@ -20,7 +20,7 @@ namespace AdministradorDeBarberia.Models
 
         //Clave foranea hacia cita
         [Required]
-        [ForeignKey("CitaId")]
+        [ForeignKey("IdCita")]
         public int CitaId { get; set; }
         public Cita Cita { get; set; }
     }

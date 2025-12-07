@@ -14,12 +14,12 @@ namespace AdministradorDeBarberia.Models
         // Clave foránea para la relación uno a muchos
 
         [Required]
-        [ForeignKey("ClienteId")]
+        [ForeignKey("IdCliente")]
         public int ClienteId { get; set; }
         public Cliente Cliente { get; set; }
 
         [Required]
-        [ForeignKey("EmpleadoId")]
+        [ForeignKey("IdEmpleado")]
         public int EmpleadoId { get; set; }
         public Empleado Empleado { get; set; }
 
