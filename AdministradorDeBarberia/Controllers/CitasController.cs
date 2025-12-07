@@ -49,8 +49,8 @@ namespace AdministradorDeBarberia.Controllers
         // GET: Citas/Create
         public IActionResult Create()
         {
-            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Correo");
-            ViewData["EmpleadoId"] = new SelectList(_context.Set<Empleado>(), "EmpleadoId", "Especialidad");
+            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Nombre");
+            ViewData["EmpleadoId"] = new SelectList(_context.Set<Empleado>(), "EmpleadoId", "Nombre");
             return View();
         }
 
@@ -61,12 +61,26 @@ namespace AdministradorDeBarberia.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CitaId,FechaHora,ClienteId,EmpleadoId")] Cita cita)
         {
-            if (ModelState.IsValid)
+            //Validación 
+
+            try 
             {
                 _context.Add(cita);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            catch (Exception) 
+            {
+                throw;
+            }
+
+            //if (ModelState.IsValid)
+            //{
+            //    _context.Add(cita);
+            //    await _context.SaveChangesAsync();
+            //    return RedirectToAction(nameof(Index));
+            //}
+            
             ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Correo", cita.ClienteId);
             ViewData["EmpleadoId"] = new SelectList(_context.Set<Empleado>(), "EmpleadoId", "Especialidad", cita.EmpleadoId);
             return View(cita);

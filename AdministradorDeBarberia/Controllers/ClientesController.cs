@@ -56,12 +56,25 @@ namespace AdministradorDeBarberia.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ClienteId,Nombre,Telefono,Correo")] Cliente cliente)
         {
-            if (ModelState.IsValid)
+
+            try
             {
                 _context.Add(cliente);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            //if (ModelState.IsValid)
+            //{
+            //    _context.Add(cliente);
+            //    await _context.SaveChangesAsync();
+            //    return RedirectToAction(nameof(Index));
+            //}
+
             return View(cliente);
         }
 
