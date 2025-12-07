@@ -2,7 +2,102 @@
     ViewData["Title"] = "Inicio";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section class="py-md-20 py-12 hero">
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="row min-vh-100 align-items-center justify-content-center">
+            <div class="col-xl-6 col-lg-6 col-md-12">
+                <div class="mb-4 mb-xl-0 text-center text-md-start">
+                    <!-- Caption -->
+                    <h1 class="display-2 fw-bold mb-3 ls-sm text-light">Tu mejor barbería en Costa Rica</h1>
+                    <p class="mb-4 lead text-light">
+                        Más que un corte, una experiencia de barbería clásica y moderna con cortes de cabello profesionales, diseño de barba y cuidado masculino para que salgas con un estilo impecable.
+                    </p>
+                    <!-- List -->
+                    @* <div class="mb-6 mb-0">
+                        <ul class="list-unstyled fs-4 ">
+                            <li class="mb-2 ">
+                                <span class="me-2 ">
+                                    <i class="fe fe-clock text-warning "></i>
+                                </span><span class="align-top">
+                                    4
+                                    Hours
+                                </span>
+                            </li>
+                            <li class="mb-2 ">
+                                <span class="me-2 ">
+                                    <i class="fe fe-video text-warning "></i>
+                                </span><span class="align-top">
+                                    12
+                                    Videos
+                                </span>
+                            </li>
+                            <li class="mb-2 ">
+                                <span class="me-2 ">
+                                    <i class="fe fe-users text-warning "></i>
+                                </span><span class="align-top">
+                                    10,234+
+                                    Enrolled
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                    <a href="https://www.youtube.com/watch?v=JRzWRZahOVU"
+                       class="glightbox btn btn-success btn-lg fs-4">Watch Preview</a> *@
+                </div>
+            </div>
+            <div class="offset-xl-1 col-xl-5 col-lg-6 col-md-12">
+                <!-- Card -->
+                <div class="card smooth-shadow-md" style="z-index: 1;">
+                    <!-- Card body -->
+                    <div class="card-body p-6">
+                        <div class="mb-4">
+                            <h2 class="mb-4 lh-1 fw-bold h2">Ingresar al sistema</h2>
+                            </div>
+                        <div class="mb-4">
+                            <div class="border-bottom"></div>
+             
+                        </div>
+                        <!-- Form -->
+                        <form>
+                            <!-- Username -->
+                            <div class="mb-3">
+                                <label for="email" class="form-label visually-hidden">Correo electrónico</label>
+                                <input type="email" id="email" class="form-control" name="email"
+                                       placeholder="Correo electrónico" required="">
+                            </div>
+                            <!-- Password -->
+                            <div class="mb-3">
+                                <label for="password" class="form-label visually-hidden">Contraseña</label>
+                                <input type="password" id="password" class="form-control" name="password"
+                                       placeholder="Contraseña" required="">
+                            </div>
+                            <!-- Button -->
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">Ingresar</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- Card Footer -->
+                    @* <div class="card-footer px-6 py-4">
+                        <p class="mb-0">
+                            By continuing you accept the <a href="#"
+                                                            class="text-inherit fw-semibold">Terms of Use</a>,<a href="#"
+                                                                                                                 class="text-inherit fw-semibold">
+                                Privacy
+                                Policy
+                            </a>, and <a href="#" class="text-inherit fw-semibold">Data Policy</a>
+                        </p>
+                    </div> *@
+                </div>
+                <!-- Pattern -->
+                <div class="position-relative">
+                    <div class="position-absolute bottom-0 end-0 me-md-n3 mb-md-n6 me-lg-n4 mb-lg-n4 me-xl-n6 mb-xl-n8 d-none d-md-block ">
+                        <img src="../assets/images/pattern/dots-pattern.svg" alt=""
+                             class="opacity-25">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

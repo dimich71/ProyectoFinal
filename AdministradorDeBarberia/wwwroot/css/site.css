@@ -20,3 +20,22 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+/*Clases modificadoras*/
+
+.logo{
+    height: 40px;
+    width: auto;
+}
+
+.hero {
+    background-image: url('imgs/hero.jpg');
+    background-size: cover;
+    margin: 0;
+    max-width: unset;
+    max-height: unset;
+    height: 90vh;
+    padding: 0;
+    background-position: center;
+    position: relative;
+}
