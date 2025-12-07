@@ -29,7 +29,7 @@ body {
 }
 
 .hero {
-    background-image: url('imgs/hero.jpg');
+    background-image: url('imgs/heroImage.png');
     background-size: cover;
     margin: 0;
     max-width: unset;
