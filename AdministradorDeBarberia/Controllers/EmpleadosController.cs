@@ -10,22 +10,22 @@ using AdministradorDeBarberia.Models;
 
 namespace AdministradorDeBarberia.Controllers
 {
-    public class EmpleadoesController : Controller
+    public class EmpleadosController : Controller
     {
         private readonly AdministradorDeBarberiaContext _context;
 
-        public EmpleadoesController(AdministradorDeBarberiaContext context)
+        public EmpleadosController(AdministradorDeBarberiaContext context)
         {
             _context = context;
         }
 
-        // GET: Empleadoes
+        // GET: Empleados
         public async Task<IActionResult> Index()
         {
             return View(await _context.Empleado.ToListAsync());
         }
 
-        // GET: Empleadoes/Details/5
+        // GET: Empleados/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,13 +43,13 @@ namespace AdministradorDeBarberia.Controllers
             return View(empleado);
         }
 
-        // GET: Empleadoes/Create
+        // GET: Empleados/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Empleadoes/Create
+        // POST: Empleados/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -65,7 +65,7 @@ namespace AdministradorDeBarberia.Controllers
             return View(empleado);
         }
 
-        // GET: Empleadoes/Edit/5
+        // GET: Empleados/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -81,7 +81,7 @@ namespace AdministradorDeBarberia.Controllers
             return View(empleado);
         }
 
-        // POST: Empleadoes/Edit/5
+        // POST: Empleados/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -116,7 +116,7 @@ namespace AdministradorDeBarberia.Controllers
             return View(empleado);
         }
 
-        // GET: Empleadoes/Delete/5
+        // GET: Empleados/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -134,7 +134,7 @@ namespace AdministradorDeBarberia.Controllers
             return View(empleado);
         }
 
-        // POST: Empleadoes/Delete/5
+        // POST: Empleados/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
