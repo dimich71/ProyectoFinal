@@ -22,8 +22,7 @@ namespace AdministradorDeBarberia.Controllers
         // GET: Servicios
         public async Task<IActionResult> Index()
         {
-            var administradorDeBarberiaContext = _context.Servicio.Include(s => s.Cita);
-            return View(await administradorDeBarberiaContext.ToListAsync());
+            return View(await _context.Servicio.ToListAsync());
         }
 
         // GET: Servicios/Details/5
@@ -35,7 +34,6 @@ namespace AdministradorDeBarberia.Controllers
             }
 
             var servicio = await _context.Servicio
-                .Include(s => s.Cita)
                 .FirstOrDefaultAsync(m => m.ServicioId == id);
             if (servicio == null)
             {
@@ -48,7 +46,6 @@ namespace AdministradorDeBarberia.Controllers
         // GET: Servicios/Create
         public IActionResult Create()
         {
-            ViewData["CitaId"] = new SelectList(_context.Cita, "CitaId", "CitaId");
             return View();
         }
 
@@ -57,7 +54,7 @@ namespace AdministradorDeBarberia.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ServicioId,Nombre,Precio,DuracionMinutos,CitaId")] Servicio servicio)
+        public async Task<IActionResult> Create([Bind("ServicioId,Nombre,Precio,DuracionMinutos")] Servicio servicio)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +62,6 @@ namespace AdministradorDeBarberia.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CitaId"] = new SelectList(_context.Cita, "CitaId", "CitaId", servicio.CitaId);
             return View(servicio);
         }
 
@@ -82,7 +78,6 @@ namespace AdministradorDeBarberia.Controllers
             {
                 return NotFound();
             }
-            ViewData["CitaId"] = new SelectList(_context.Cita, "CitaId", "CitaId", servicio.CitaId);
             return View(servicio);
         }
 
@@ -91,7 +86,7 @@ namespace AdministradorDeBarberia.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ServicioId,Nombre,Precio,DuracionMinutos,CitaId")] Servicio servicio)
+        public async Task<IActionResult> Edit(int id, [Bind("ServicioId,Nombre,Precio,DuracionMinutos")] Servicio servicio)
         {
             if (id != servicio.ServicioId)
             {
@@ -118,7 +113,6 @@ namespace AdministradorDeBarberia.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CitaId"] = new SelectList(_context.Cita, "CitaId", "CitaId", servicio.CitaId);
             return View(servicio);
         }
 
@@ -131,7 +125,6 @@ namespace AdministradorDeBarberia.Controllers
             }
 
             var servicio = await _context.Servicio
-                .Include(s => s.Cita)
                 .FirstOrDefaultAsync(m => m.ServicioId == id);
             if (servicio == null)
             {

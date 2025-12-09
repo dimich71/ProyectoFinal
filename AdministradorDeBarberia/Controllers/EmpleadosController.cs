@@ -56,7 +56,6 @@ namespace AdministradorDeBarberia.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("EmpleadoId,Nombre,Especialidad")] Empleado empleado)
         {
-
             if (ModelState.IsValid)
             {
                 _context.Add(empleado);

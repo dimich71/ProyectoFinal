@@ -22,7 +22,7 @@ namespace AdministradorDeBarberia.Controllers
         // GET: Citas
         public async Task<IActionResult> Index()
         {
-            var administradorDeBarberiaContext = _context.Cita.Include(c => c.Cliente).Include(c => c.Empleado);
+            var administradorDeBarberiaContext = _context.Cita.Include(c => c.Cliente).Include(c => c.Empleado).Include(c => c.Servicio);
             return View(await administradorDeBarberiaContext.ToListAsync());
         }
 
@@ -37,6 +37,7 @@ namespace AdministradorDeBarberia.Controllers
             var cita = await _context.Cita
                 .Include(c => c.Cliente)
                 .Include(c => c.Empleado)
+                .Include(c => c.Servicio)
                 .FirstOrDefaultAsync(m => m.CitaId == id);
             if (cita == null)
             {
@@ -49,8 +50,9 @@ namespace AdministradorDeBarberia.Controllers
         // GET: Citas/Create
         public IActionResult Create()
         {
-            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Nombre");
-            ViewData["EmpleadoId"] = new SelectList(_context.Set<Empleado>(), "EmpleadoId", "Nombre");
+            ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Correo");
+            ViewData["EmpleadoId"] = new SelectList(_context.Empleado, "EmpleadoId", "Especialidad");
+            ViewData["ServicioId"] = new SelectList(_context.Servicio, "ServicioId", "Nombre");
             return View();
         }
 
@@ -59,30 +61,17 @@ namespace AdministradorDeBarberia.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CitaId,FechaHora,ClienteId,EmpleadoId")] Cita cita)
+        public async Task<IActionResult> Create([Bind("CitaId,FechaHora,ClienteId,EmpleadoId,ServicioId")] Cita cita)
         {
-            //Validación 
-
-            try 
+            if (ModelState.IsValid)
             {
                 _context.Add(cita);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            catch (Exception) 
-            {
-                throw;
-            }
-
-            //if (ModelState.IsValid)
-            //{
-            //    _context.Add(cita);
-            //    await _context.SaveChangesAsync();
-            //    return RedirectToAction(nameof(Index));
-            //}
-            
             ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Correo", cita.ClienteId);
-            ViewData["EmpleadoId"] = new SelectList(_context.Set<Empleado>(), "EmpleadoId", "Especialidad", cita.EmpleadoId);
+            ViewData["EmpleadoId"] = new SelectList(_context.Empleado, "EmpleadoId", "Especialidad", cita.EmpleadoId);
+            ViewData["ServicioId"] = new SelectList(_context.Servicio, "ServicioId", "Nombre", cita.ServicioId);
             return View(cita);
         }
 
@@ -100,7 +89,8 @@ namespace AdministradorDeBarberia.Controllers
                 return NotFound();
             }
             ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Correo", cita.ClienteId);
-            ViewData["EmpleadoId"] = new SelectList(_context.Set<Empleado>(), "EmpleadoId", "Especialidad", cita.EmpleadoId);
+            ViewData["EmpleadoId"] = new SelectList(_context.Empleado, "EmpleadoId", "Especialidad", cita.EmpleadoId);
+            ViewData["ServicioId"] = new SelectList(_context.Servicio, "ServicioId", "Nombre", cita.ServicioId);
             return View(cita);
         }
 
@@ -109,7 +99,7 @@ namespace AdministradorDeBarberia.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CitaId,FechaHora,ClienteId,EmpleadoId")] Cita cita)
+        public async Task<IActionResult> Edit(int id, [Bind("CitaId,FechaHora,ClienteId,EmpleadoId,ServicioId")] Cita cita)
         {
             if (id != cita.CitaId)
             {
@@ -137,7 +127,8 @@ namespace AdministradorDeBarberia.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ClienteId"] = new SelectList(_context.Cliente, "ClienteId", "Correo", cita.ClienteId);
-            ViewData["EmpleadoId"] = new SelectList(_context.Set<Empleado>(), "EmpleadoId", "Especialidad", cita.EmpleadoId);
+            ViewData["EmpleadoId"] = new SelectList(_context.Empleado, "EmpleadoId", "Especialidad", cita.EmpleadoId);
+            ViewData["ServicioId"] = new SelectList(_context.Servicio, "ServicioId", "Nombre", cita.ServicioId);
             return View(cita);
         }
 
@@ -152,6 +143,7 @@ namespace AdministradorDeBarberia.Controllers
             var cita = await _context.Cita
                 .Include(c => c.Cliente)
                 .Include(c => c.Empleado)
+                .Include(c => c.Servicio)
                 .FirstOrDefaultAsync(m => m.CitaId == id);
             if (cita == null)
             {

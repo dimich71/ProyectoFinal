@@ -21,9 +21,14 @@ namespace AdministradorDeBarberia.Models
         [Required]
         [ForeignKey("Empleado")]
         public int EmpleadoId { get; set; }
-        public Empleado Empleado { get; set; }
+        public Empleado Empleado { get; set; } 
+
+        [Required]
+        [ForeignKey("Servicio")]
+        public int ServicioId { get; set; }
+        public Servicio Servicio { get; set; } 
 
         // Propiedad de navegación para la relación uno a muchos
-        public ICollection<Servicio> ListaServicios { get; set; } = new List<Servicio>();
+        //public ICollection<Servicio> ListaServicios { get; set; } = new List<Servicio>();
     }
 }

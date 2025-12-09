@@ -19,9 +19,9 @@ namespace AdministradorDeBarberia.Models
         public int DuracionMinutos { get; set; }
 
         //Clave foranea hacia cita
-        [Required]
-        [ForeignKey("Cita")]
-        public int CitaId { get; set; }
-        public Cita Cita { get; set; }
+        //[Required]
+        //[ForeignKey("Cita")]
+        //public int CitaId { get; set; }
+        //public Cita Cita { get; set; } = new Cita();
     }
 }

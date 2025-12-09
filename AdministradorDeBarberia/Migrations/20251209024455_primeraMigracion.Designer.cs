@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AdministradorDeBarberia.Migrations
 {
     [DbContext(typeof(AdministradorDeBarberiaContext))]
-    [Migration("20251207161134_primeraMigracion")]
+    [Migration("20251209024455_primeraMigracion")]
     partial class primeraMigracion
     {
         /// <inheritdoc />
@@ -42,11 +42,16 @@ namespace AdministradorDeBarberia.Migrations
                     b.Property<DateTime>("FechaHora")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("ServicioId")
+                        .HasColumnType("int");
+
                     b.HasKey("CitaId");
 
                     b.HasIndex("ClienteId");
 
                     b.HasIndex("EmpleadoId");
+
+                    b.HasIndex("ServicioId");
 
                     b.ToTable("Cita");
                 });
@@ -110,9 +115,6 @@ namespace AdministradorDeBarberia.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ServicioId"));
 
-                    b.Property<int>("CitaId")
-                        .HasColumnType("int");
-
                     b.Property<int>("DuracionMinutos")
                         .HasColumnType("int");
 
@@ -125,8 +127,6 @@ namespace AdministradorDeBarberia.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("ServicioId");
-
-                    b.HasIndex("CitaId");
 
                     b.ToTable("Servicio");
                 });
@@ -175,25 +175,17 @@ namespace AdministradorDeBarberia.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Cliente");
-
-                    b.Navigation("Empleado");
-                });
-
-            modelBuilder.Entity("AdministradorDeBarberia.Models.Servicio", b =>
-                {
-                    b.HasOne("AdministradorDeBarberia.Models.Cita", "Cita")
-                        .WithMany("ListaServicios")
-                        .HasForeignKey("CitaId")
+                    b.HasOne("AdministradorDeBarberia.Models.Servicio", "Servicio")
+                        .WithMany()
+                        .HasForeignKey("ServicioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Cita");
-                });
+                    b.Navigation("Cliente");
 
-            modelBuilder.Entity("AdministradorDeBarberia.Models.Cita", b =>
-                {
-                    b.Navigation("ListaServicios");
+                    b.Navigation("Empleado");
+
+                    b.Navigation("Servicio");
                 });
 
             modelBuilder.Entity("AdministradorDeBarberia.Models.Cliente", b =>
