@@ -12,7 +12,7 @@ namespace AdministradorDeBarberia.Models
         [MaxLength(100)]
         public string Nombre { get; set; }
 
-        [Range(0, 10000)]
+        
         public decimal Precio { get; set; }
 
         [Range(1, 1440)]

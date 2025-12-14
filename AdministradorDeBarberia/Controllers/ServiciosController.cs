@@ -72,8 +72,7 @@ namespace AdministradorDeBarberia.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ServicioId,Nombre,Precio,DuracionMinutos")] Servicio servicio)
         {
-            if (ModelState.IsValid)
-            {
+       
                 try
                 {
                     _context.Add(servicio);
@@ -84,7 +83,7 @@ namespace AdministradorDeBarberia.Controllers
                 {
                     ModelState.AddModelError("", "Ocurrió un error al guardar el servicio.");
                 }
-            }
+          
             return View(servicio);
         }
 

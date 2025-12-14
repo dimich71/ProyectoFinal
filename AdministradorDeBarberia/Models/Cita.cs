@@ -9,6 +9,7 @@ namespace AdministradorDeBarberia.Models
         public int CitaId { get; set; }
 
         [Required]
+        [Display(Name = "Fecha y hora")]
         public DateTime FechaHora { get; set; }
 
         // Clave foránea para la relación uno a muchos
