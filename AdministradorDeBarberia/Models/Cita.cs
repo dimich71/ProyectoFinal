@@ -16,16 +16,19 @@ namespace AdministradorDeBarberia.Models
 
         [Required]
         [ForeignKey("Cliente")]
+        [Display(Name = "Cliente")]
         public int ClienteId { get; set; }
         public Cliente Cliente { get; set; }
 
         [Required]
         [ForeignKey("Empleado")]
+        [Display(Name = "Empleado")]
         public int EmpleadoId { get; set; }
         public Empleado Empleado { get; set; } 
 
         [Required]
         [ForeignKey("Servicio")]
+        [Display(Name = "Servicio")]
         public int ServicioId { get; set; }
         public Servicio Servicio { get; set; } 
 
