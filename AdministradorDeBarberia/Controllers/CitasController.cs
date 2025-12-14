@@ -76,8 +76,8 @@ namespace AdministradorDeBarberia.Controllers
                 if (!empleados.Any()) ModelState.AddModelError("", "No hay empleados registrados. Cree un empleado antes de agendar.");
                 if (!servicios.Any()) ModelState.AddModelError("", "No hay servicios registrados. Cree un servicio antes de agendar.");
 
-                ViewData["ClienteId"] = new SelectList(clientes, "ClienteId", "Correo");
-                ViewData["EmpleadoId"] = new SelectList(empleados, "EmpleadoId", "Especialidad");
+                ViewData["ClienteId"] = new SelectList(clientes, "ClienteId", "Nombre");
+                ViewData["EmpleadoId"] = new SelectList(empleados, "EmpleadoId", "Nombre");
                 ViewData["ServicioId"] = new SelectList(servicios, "ServicioId", "Nombre");
                 return View();
             }
@@ -130,12 +130,11 @@ namespace AdministradorDeBarberia.Controllers
                     ModelState.AddModelError("ServicioId", "Servicio seleccionado no existe.");
                 }
 
-                if (ModelState.IsValid)
-                {
-                    _context.Add(cita);
+                //Se elimina el if que da error al crear la cita
+                _context.Add(cita);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
-                }
+               
             }
             catch (Exception)
             {
