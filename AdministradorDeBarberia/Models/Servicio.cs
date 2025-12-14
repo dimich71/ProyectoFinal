@@ -16,6 +16,7 @@ namespace AdministradorDeBarberia.Models
         public decimal Precio { get; set; }
 
         [Range(1, 1440)]
+        [Display(Name = "Duración (minutos)")]
         public int DuracionMinutos { get; set; }
 
         //Clave foranea hacia cita

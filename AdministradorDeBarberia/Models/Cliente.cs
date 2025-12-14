@@ -14,11 +14,13 @@ namespace AdministradorDeBarberia.Models
         [Required]
         [Phone]
         [MaxLength(20)]
+        [Display(Name = "Teléfono")]
         public string Telefono { get; set; }
 
         [Required]
         [EmailAddress]
         [MaxLength(200)]
+        [Display(Name = "Correo electrónico")]
         public string Correo { get; set; }
 
         // Propiedad de navegación para la relación uno a muchos
