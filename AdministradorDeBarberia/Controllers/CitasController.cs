@@ -108,7 +108,7 @@ namespace AdministradorDeBarberia.Controllers
                 }
                 if (!_context.Servicio.Any())
                 {
-                    ModelState.AddModelError("", "No se puede agendar una cita: no hay servicios.");
+                    ModelState.AddModelError("", "No se puede agendar una cita: no hay servicios."); 
                 }
 
                 if (cita.FechaHora <= DateTime.Now)
