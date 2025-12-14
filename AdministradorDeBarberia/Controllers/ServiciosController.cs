@@ -22,7 +22,15 @@ namespace AdministradorDeBarberia.Controllers
         // GET: Servicios
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Servicio.ToListAsync());
+            try
+            {
+                return View(await _context.Servicio.ToListAsync());
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "Ocurrió un error al obtener los servicios.");
+                return View(new List<Servicio>());
+            }
         }
 
         // GET: Servicios/Details/5
@@ -33,14 +41,22 @@ namespace AdministradorDeBarberia.Controllers
                 return NotFound();
             }
 
-            var servicio = await _context.Servicio
-                .FirstOrDefaultAsync(m => m.ServicioId == id);
-            if (servicio == null)
+            try
             {
-                return NotFound();
-            }
+                var servicio = await _context.Servicio
+                    .FirstOrDefaultAsync(m => m.ServicioId == id);
+                if (servicio == null)
+                {
+                    return NotFound();
+                }
 
-            return View(servicio);
+                return View(servicio);
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "Ocurrió un error al obtener los detalles del servicio.");
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // GET: Servicios/Create
@@ -58,9 +74,16 @@ namespace AdministradorDeBarberia.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(servicio);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    _context.Add(servicio);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception)
+                {
+                    ModelState.AddModelError("", "Ocurrió un error al guardar el servicio.");
+                }
             }
             return View(servicio);
         }
@@ -73,12 +96,20 @@ namespace AdministradorDeBarberia.Controllers
                 return NotFound();
             }
 
-            var servicio = await _context.Servicio.FindAsync(id);
-            if (servicio == null)
+            try
             {
-                return NotFound();
+                var servicio = await _context.Servicio.FindAsync(id);
+                if (servicio == null)
+                {
+                    return NotFound();
+                }
+                return View(servicio);
             }
-            return View(servicio);
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "Ocurrió un error al obtener el servicio para editar.");
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // POST: Servicios/Edit/5
@@ -111,6 +142,11 @@ namespace AdministradorDeBarberia.Controllers
                         throw;
                     }
                 }
+                catch (Exception)
+                {
+                    ModelState.AddModelError("", "Ocurrió un error al actualizar el servicio.");
+                    return View(servicio);
+                }
                 return RedirectToAction(nameof(Index));
             }
             return View(servicio);
@@ -124,14 +160,22 @@ namespace AdministradorDeBarberia.Controllers
                 return NotFound();
             }
 
-            var servicio = await _context.Servicio
-                .FirstOrDefaultAsync(m => m.ServicioId == id);
-            if (servicio == null)
+            try
             {
-                return NotFound();
-            }
+                var servicio = await _context.Servicio
+                    .FirstOrDefaultAsync(m => m.ServicioId == id);
+                if (servicio == null)
+                {
+                    return NotFound();
+                }
 
-            return View(servicio);
+                return View(servicio);
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "Ocurrió un error al obtener el servicio.");
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // POST: Servicios/Delete/5
@@ -139,14 +183,22 @@ namespace AdministradorDeBarberia.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var servicio = await _context.Servicio.FindAsync(id);
-            if (servicio != null)
+            try
             {
-                _context.Servicio.Remove(servicio);
-            }
+                var servicio = await _context.Servicio.FindAsync(id);
+                if (servicio != null)
+                {
+                    _context.Servicio.Remove(servicio);
+                }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "Ocurrió un error al eliminar el servicio.");
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         private bool ServicioExists(int id)

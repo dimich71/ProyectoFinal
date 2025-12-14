@@ -22,7 +22,15 @@ namespace AdministradorDeBarberia.Controllers
         // GET: Empleados
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Empleado.ToListAsync());
+            try
+            {
+                return View(await _context.Empleado.ToListAsync());
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "Ocurrió un error al obtener los empleados.");
+                return View(new List<Empleado>());
+            }
         }
 
         // GET: Empleados/Details/5
@@ -33,14 +41,22 @@ namespace AdministradorDeBarberia.Controllers
                 return NotFound();
             }
 
-            var empleado = await _context.Empleado
-                .FirstOrDefaultAsync(m => m.EmpleadoId == id);
-            if (empleado == null)
+            try
             {
-                return NotFound();
-            }
+                var empleado = await _context.Empleado
+                    .FirstOrDefaultAsync(m => m.EmpleadoId == id);
+                if (empleado == null)
+                {
+                    return NotFound();
+                }
 
-            return View(empleado);
+                return View(empleado);
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "Ocurrió un error al obtener los detalles del empleado.");
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // GET: Empleados/Create
@@ -58,9 +74,16 @@ namespace AdministradorDeBarberia.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(empleado);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    _context.Add(empleado);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception)
+                {
+                    ModelState.AddModelError("", "Ocurrió un error al guardar el empleado.");
+                }
             }
             return View(empleado);
         }
@@ -73,12 +96,20 @@ namespace AdministradorDeBarberia.Controllers
                 return NotFound();
             }
 
-            var empleado = await _context.Empleado.FindAsync(id);
-            if (empleado == null)
+            try
             {
-                return NotFound();
+                var empleado = await _context.Empleado.FindAsync(id);
+                if (empleado == null)
+                {
+                    return NotFound();
+                }
+                return View(empleado);
             }
-            return View(empleado);
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "Ocurrió un error al obtener el empleado para editar.");
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // POST: Empleados/Edit/5
@@ -111,6 +142,11 @@ namespace AdministradorDeBarberia.Controllers
                         throw;
                     }
                 }
+                catch (Exception)
+                {
+                    ModelState.AddModelError("", "Ocurrió un error al actualizar el empleado.");
+                    return View(empleado);
+                }
                 return RedirectToAction(nameof(Index));
             }
             return View(empleado);
@@ -124,14 +160,22 @@ namespace AdministradorDeBarberia.Controllers
                 return NotFound();
             }
 
-            var empleado = await _context.Empleado
-                .FirstOrDefaultAsync(m => m.EmpleadoId == id);
-            if (empleado == null)
+            try
             {
-                return NotFound();
-            }
+                var empleado = await _context.Empleado
+                    .FirstOrDefaultAsync(m => m.EmpleadoId == id);
+                if (empleado == null)
+                {
+                    return NotFound();
+                }
 
-            return View(empleado);
+                return View(empleado);
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "Ocurrió un error al obtener el empleado.");
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // POST: Empleados/Delete/5
@@ -139,14 +183,22 @@ namespace AdministradorDeBarberia.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var empleado = await _context.Empleado.FindAsync(id);
-            if (empleado != null)
+            try
             {
-                _context.Empleado.Remove(empleado);
-            }
+                var empleado = await _context.Empleado.FindAsync(id);
+                if (empleado != null)
+                {
+                    _context.Empleado.Remove(empleado);
+                }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "Ocurrió un error al eliminar el empleado.");
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         private bool EmpleadoExists(int id)

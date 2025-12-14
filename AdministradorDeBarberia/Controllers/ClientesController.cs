@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AdministradorDeBarberia.Data;
 using AdministradorDeBarberia.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace AdministradorDeBarberia.Controllers
 {
@@ -22,7 +23,15 @@ namespace AdministradorDeBarberia.Controllers
         // GET: Clientes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Cliente.ToListAsync());
+            try
+            {
+                return View(await _context.Cliente.ToListAsync());
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Ocurrió un error al obtener los clientes.");
+                return View(new List<Cliente>());
+            }
         }
 
         // GET: Clientes/Details/5
@@ -33,14 +42,22 @@ namespace AdministradorDeBarberia.Controllers
                 return NotFound();
             }
 
-            var cliente = await _context.Cliente
-                .FirstOrDefaultAsync(m => m.ClienteId == id);
-            if (cliente == null)
+            try
             {
-                return NotFound();
-            }
+                var cliente = await _context.Cliente
+                    .FirstOrDefaultAsync(m => m.ClienteId == id);
+                if (cliente == null)
+                {
+                    return NotFound();
+                }
 
-            return View(cliente);
+                return View(cliente);
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "Ocurrió un error al obtener los detalles del cliente.");
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // GET: Clientes/Create
@@ -56,11 +73,25 @@ namespace AdministradorDeBarberia.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ClienteId,Nombre,Telefono,Correo")] Cliente cliente)
         {
+            // Validación lógica del correo
+            var emailAttr = new EmailAddressAttribute();
+            if (!emailAttr.IsValid(cliente.Correo))
+            {
+                ModelState.AddModelError("Correo", "El correo no tiene un formato válido.");
+            }
+
             if (ModelState.IsValid)
             {
-                _context.Add(cliente);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    _context.Add(cliente);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception)
+                {
+                    ModelState.AddModelError("", "Ocurrió un error al guardar el cliente.");
+                }
             }
             return View(cliente);
         }
@@ -73,12 +104,20 @@ namespace AdministradorDeBarberia.Controllers
                 return NotFound();
             }
 
-            var cliente = await _context.Cliente.FindAsync(id);
-            if (cliente == null)
+            try
             {
-                return NotFound();
+                var cliente = await _context.Cliente.FindAsync(id);
+                if (cliente == null)
+                {
+                    return NotFound();
+                }
+                return View(cliente);
             }
-            return View(cliente);
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "Ocurrió un error al obtener el cliente para editar.");
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // POST: Clientes/Edit/5
@@ -91,6 +130,12 @@ namespace AdministradorDeBarberia.Controllers
             if (id != cliente.ClienteId)
             {
                 return NotFound();
+            }
+
+            var emailAttr = new EmailAddressAttribute();
+            if (!emailAttr.IsValid(cliente.Correo))
+            {
+                ModelState.AddModelError("Correo", "El correo no tiene un formato válido.");
             }
 
             if (ModelState.IsValid)
@@ -111,6 +156,11 @@ namespace AdministradorDeBarberia.Controllers
                         throw;
                     }
                 }
+                catch (Exception)
+                {
+                    ModelState.AddModelError("", "Ocurrió un error al actualizar el cliente.");
+                    return View(cliente);
+                }
                 return RedirectToAction(nameof(Index));
             }
             return View(cliente);
@@ -124,14 +174,22 @@ namespace AdministradorDeBarberia.Controllers
                 return NotFound();
             }
 
-            var cliente = await _context.Cliente
-                .FirstOrDefaultAsync(m => m.ClienteId == id);
-            if (cliente == null)
+            try
             {
-                return NotFound();
-            }
+                var cliente = await _context.Cliente
+                    .FirstOrDefaultAsync(m => m.ClienteId == id);
+                if (cliente == null)
+                {
+                    return NotFound();
+                }
 
-            return View(cliente);
+                return View(cliente);
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "Ocurrió un error al obtener el cliente.");
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // POST: Clientes/Delete/5
@@ -139,14 +197,21 @@ namespace AdministradorDeBarberia.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var cliente = await _context.Cliente.FindAsync(id);
-            if (cliente != null)
+            try
             {
-                _context.Cliente.Remove(cliente);
+                var cliente = await _context.Cliente.FindAsync(id);
+                if (cliente != null)
+                {
+                    _context.Cliente.Remove(cliente);
+                    await _context.SaveChangesAsync();
+                }
+                return RedirectToAction(nameof(Index));
             }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "Ocurrió un error al eliminar el cliente.");
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         private bool ClienteExists(int id)
